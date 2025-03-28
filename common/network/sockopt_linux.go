@@ -69,7 +69,7 @@ func NewListenerControlFromOptions(option *InboundSocketOptions) ControlFunc {
 		err_ := c.Control(func(fd uintptr) {
 			fdInt := int(fd)
 
-			err = syscall.SetsockoptInt(fdInt, syscall.SOL_TCP, unix.SO_REUSEADDR, 1)
+			err = syscall.SetsockoptInt(fdInt, syscall.SOL_SOCKET, unix.SO_REUSEADDR, 1)
 			if err != nil {
 				return
 			}
