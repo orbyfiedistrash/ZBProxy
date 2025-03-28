@@ -46,15 +46,16 @@ func NewService(logger *log.Logger, newConfig *config.Service) *Service {
 
 func (s *Service) listenLoop() {
 	for {
+		s.logger.Trace().Str("service", s.config.Name).Msg("Listen loop iteration")
 		conn, err := s.tcpListener.AcceptTCP()
 		var netConn net.Conn = conn
 		if err != nil {
 			return
 		}
+		s.logger.Trace().Str("service", s.config.Name).Str("ip", conn.RemoteAddr().(*net.TCPAddr).IP.String()).Msg("Accepted TCP connection, spawning routine")
 		go func() {
 			tcpAddress := conn.RemoteAddr().(*net.TCPAddr)
 			ipString := tcpAddress.IP.String()
-			s.logger.Trace().Str("service", s.config.Name).Str("ip", ipString).Msg("Accepted TCP connection")
 			if s.ipAccessLists != nil &&
 				!access.Check(s.ipAccessLists, s.config.IPAccess.Mode, ipString) {
 				conn.SetLinger(0)
@@ -157,7 +158,7 @@ func (s *Service) Start(ctx context.Context) error {
 	}
 	s.tcpListener = listener.(*net.TCPListener)
 	s.ctx = ctx
-	s.logger.Info().Str("service", s.config.Name).Msg("Listening on " + s.listenAddress)
+	s.logger.Info().Str("service", s.config.Name).Msg("Started listening on " + s.listenAddress)
 
 	go s.listenLoop()
 	return nil
