@@ -153,7 +153,7 @@ func (s *Service) Start(ctx context.Context) error {
 			network.SetListenerMultiPathTCP(listenConfig, true)
 		}
 	}
-	listener, err := listenConfig.Listen(ctx, "tcp4", s.listenAddress)
+	listener, err := listenConfig.Listen(ctx, "tcp", s.listenAddress)
 	if err != nil {
 		return common.Cause("start listening: ", err)
 	}
