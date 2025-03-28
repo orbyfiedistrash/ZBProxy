@@ -15,6 +15,13 @@ func NewDialerControlFromOptions(option *OutboundSocketOptions) ControlFunc {
 		err_ := c.Control(func(fd uintptr) {
 			fdInt := int(fd)
 
+			if option.NoDelay {
+				err = syscall.SetsockoptInt(fdInt, syscall.SOL_TCP, unix.TCP_NODELAY, 1)
+				if err != nil {
+					return
+				}
+			}
+
 			if option.Mark != 0 {
 				err = syscall.SetsockoptInt(fdInt, syscall.SOL_SOCKET, syscall.SO_MARK, option.Mark)
 				if err != nil {
@@ -59,6 +66,13 @@ func NewListenerControlFromOptions(option *InboundSocketOptions) ControlFunc {
 	return func(network string, address string, c syscall.RawConn) (err error) {
 		err_ := c.Control(func(fd uintptr) {
 			fdInt := int(fd)
+
+			if option.NoDelay {
+				err = syscall.SetsockoptInt(fdInt, syscall.SOL_TCP, unix.TCP_NODELAY, 1)
+				if err != nil {
+					return
+				}
+			}
 
 			if option.Mark != 0 {
 				err = syscall.SetsockoptInt(fdInt, syscall.SOL_SOCKET, syscall.SO_MARK, option.Mark)

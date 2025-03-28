@@ -13,6 +13,7 @@ type InboundSocketOptions struct {
 	TCPCongestion string `json:",omitempty"`
 	TCPFastOpen   bool   `json:",omitempty"`
 	MultiPathTCP  bool   `json:",omitempty"`
+	NoDelay       bool   `json:",omitempty"`
 }
 
 type OutboundSocketOptions struct {
@@ -23,6 +24,7 @@ type OutboundSocketOptions struct {
 	TCPCongestion string `json:",omitempty"`
 	TCPFastOpen   bool   `json:",omitempty"`
 	MultiPathTCP  bool   `json:",omitempty"`
+	NoDelay       bool   `json:",omitempty"`
 }
 
 type keepAliveOptions struct {
