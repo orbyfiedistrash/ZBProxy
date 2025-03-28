@@ -5,6 +5,7 @@ import (
 	"strings"
 	"syscall"
 
+	"github.com/layou233/zbproxy/v3/common"
 	"golang.org/x/sys/unix"
 )
 
@@ -17,7 +18,7 @@ func NewDialerControlFromOptions(option *OutboundSocketOptions) ControlFunc {
 			fdInt := int(fd)
 
 			if option.NoDelay {
-				fmt.Printf("NoDelay enabled inbound")
+				common.MainLogger.Trace().Msg("Enabled outbound TCP_NODELAY ")
 				err = syscall.SetsockoptInt(fdInt, syscall.SOL_TCP, unix.TCP_NODELAY, 1)
 				if err != nil {
 					return

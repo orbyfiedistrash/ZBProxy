@@ -1,5 +1,11 @@
 package common
 
+import (
+	"github.com/phuslu/log"
+)
+
+var MainLogger *log.Logger
+
 var CRLF = []byte("\r\n")
 
 func Must[T any](s T, err error) T {

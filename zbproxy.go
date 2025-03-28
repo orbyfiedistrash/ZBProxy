@@ -49,9 +49,15 @@ func NewInstance(ctx context.Context, options Options) (*Instance, error) {
 	if options.LogWriter == nil {
 		instance.logger.Writer = &log.ConsoleWriter{
 			ColorOutput:    true,
+			QuoteString:    true,
 			EndWithMessage: true,
+			// Formatter: func(w io.Writer, a *log.FormatterArgs) (int, error) {
+			// 	fmt.Fprintf(w, "%c%s %s %s] %s\n%s", a.Level[0]-32, a.Time, a.Goid, a.Caller, a.Message, a.Stack)
+			// 	return 0, nil
+			// },
 		}
 	}
+
 	if options.Config == nil {
 		if options.ConfigFilePath != "" {
 			newConfig, err := config.LoadConfigFromFile(
@@ -70,6 +76,8 @@ func NewInstance(ctx context.Context, options Options) (*Instance, error) {
 			return nil, errors.New("no config provided for ZBProxy")
 		}
 	}
+
+	common.MainLogger = instance.Logger()
 	instance.logger.Level = instance.config.Log.Level
 
 	return instance, nil
