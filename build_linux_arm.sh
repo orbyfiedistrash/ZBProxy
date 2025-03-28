@@ -7,3 +7,4 @@ export CGO_ENABLED=1
 export BUILD_NAME=zbproxy
 
 go build -v -trimpath -ldflags '-s -w -buildid=' -o $BUILD_NAME ./cmd/zbproxy
+mv ./zbproxy ../zbproxy
