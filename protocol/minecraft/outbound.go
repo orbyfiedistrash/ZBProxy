@@ -330,7 +330,6 @@ func (o *Outbound) InjectConnection(ctx context.Context, conn *bufio.CachedConn,
 					return common.Cause("respond ping request: ", err)
 				}
 			}
-			o.logger.Info().Str("id", metadata.ConnectionID).Str("outbound", o.config.Name).Msg("Responded MOTD")
 			return nil
 		}
 

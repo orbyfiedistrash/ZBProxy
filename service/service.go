@@ -54,6 +54,7 @@ func (s *Service) listenLoop() {
 		go func() {
 			tcpAddress := conn.RemoteAddr().(*net.TCPAddr)
 			ipString := tcpAddress.IP.String()
+			s.logger.Trace().Str("service", s.config.Name).Str("ip", ipString).Msg("Accepted TCP connection")
 			if s.ipAccessLists != nil &&
 				!access.Check(s.ipAccessLists, s.config.IPAccess.Mode, ipString) {
 				conn.SetLinger(0)
@@ -83,8 +84,6 @@ func (s *Service) listenLoop() {
 					ipString = metadata.SourceAddress.Addr().String()
 				}
 			}
-			s.logger.Info().Str("id", metadata.ConnectionID).Str("service", s.config.Name).
-				Str("ip", ipString).Msg("New inbound connection")
 			if s.legacyOutbound != nil {
 				defer s.logger.Info().Str("id", metadata.ConnectionID).Str("service", s.config.Name).
 					Str("ip", ipString).Msg("Disconnected")
