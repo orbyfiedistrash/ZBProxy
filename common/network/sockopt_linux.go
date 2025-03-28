@@ -1,7 +1,6 @@
 package network
 
 import (
-	"fmt"
 	"strings"
 	"syscall"
 
@@ -18,7 +17,7 @@ func NewDialerControlFromOptions(option *OutboundSocketOptions) ControlFunc {
 			fdInt := int(fd)
 
 			if option.NoDelay {
-				common.MainLogger.Trace().Msg("Enabled outbound TCP_NODELAY ")
+				common.MainLogger.Trace().Msg("Enabled outbound TCP_NODELAY")
 				err = syscall.SetsockoptInt(fdInt, syscall.SOL_TCP, unix.TCP_NODELAY, 1)
 				if err != nil {
 					return
@@ -71,7 +70,7 @@ func NewListenerControlFromOptions(option *InboundSocketOptions) ControlFunc {
 			fdInt := int(fd)
 
 			if option.NoDelay {
-				fmt.Printf("NoDelay enabled inbound\n")
+				common.MainLogger.Trace().Msg("Enabled inbound TCP_NODELAY")
 				err = syscall.SetsockoptInt(fdInt, syscall.SOL_TCP, unix.TCP_NODELAY, 1)
 				if err != nil {
 					return
