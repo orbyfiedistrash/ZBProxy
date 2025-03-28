@@ -57,11 +57,10 @@ func (s *Service) listenLoop() {
 		go func() {
 			tcpAddress := conn.RemoteAddr().(*net.TCPAddr)
 			ipString := tcpAddress.IP.String()
-			if s.ipAccessLists != nil &&
-				!access.Check(s.ipAccessLists, s.config.IPAccess.Mode, ipString) {
+			if s.ipAccessLists != nil && !access.Check(s.ipAccessLists, s.config.IPAccess.Mode, ipString) {
 				conn.SetLinger(0)
 				conn.Close()
-				s.logger.Warn().Str("service", s.config.Name).Str("ip", ipString).Msg("Rejected by access control")
+				s.logger.Warn().Str("service", s.config.Name).Str("ip", ipString).Msg("Inbound connection rejected by access control")
 				return
 			}
 			metadata := &adapter.Metadata{

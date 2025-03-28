@@ -16,13 +16,13 @@ func NewDialerControlFromOptions(option *OutboundSocketOptions) ControlFunc {
 		err_ := c.Control(func(fd uintptr) {
 			fdInt := int(fd)
 
-			if option.NoDelay {
-				common.MainLogger.Trace().Msg("Enabled outbound TCP_NODELAY")
-				err = syscall.SetsockoptInt(fdInt, syscall.SOL_TCP, unix.TCP_NODELAY, 1)
-				if err != nil {
-					return
-				}
-			}
+			// if option.NoDelay {
+			// 	common.MainLogger.Trace().Msg("Enabled outbound TCP_NODELAY")
+			// 	err = syscall.SetsockoptInt(fdInt, syscall.SOL_TCP, unix.TCP_NODELAY, 1)
+			// 	if err != nil {
+			// 		return
+			// 	}
+			// }
 
 			if option.Mark != 0 {
 				err = syscall.SetsockoptInt(fdInt, syscall.SOL_SOCKET, syscall.SO_MARK, option.Mark)
