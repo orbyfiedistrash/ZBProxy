@@ -45,8 +45,8 @@ func NewService(logger *log.Logger, newConfig *config.Service) *Service {
 }
 
 func (s *Service) listenLoop() {
+	s.logger.Trace().Str("service", s.config.Name).Msg("Listener loop entered")
 	for {
-		s.logger.Trace().Str("service", s.config.Name).Msg("Listen loop iteration")
 		conn, err := s.tcpListener.AcceptTCP()
 		var netConn net.Conn = conn
 		if err != nil {
