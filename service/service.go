@@ -50,6 +50,7 @@ func (s *Service) listenLoop() {
 		conn, err := s.tcpListener.AcceptTCP()
 		var netConn net.Conn = conn
 		if err != nil {
+			s.logger.Error().Err(err).Msg("Error while accepting connection")
 			return
 		}
 		s.logger.Trace().Str("service", s.config.Name).Str("ip", conn.RemoteAddr().(*net.TCPAddr).IP.String()).Msg("Accepted TCP connection, spawning routine")
