@@ -23,7 +23,7 @@ func main() {
   / /   |  _  { |  ___/ |  _  /  | | | |   }  {     \  /
  / /__  | |_| | | |     | | \ \  | |_| |  / /\ \    / /
 /_____| |_____/ |_|     |_|  \_\ \_____/ /_/  \_\  /_/`))
-	fmt.Printf(color.Apply(color.FgHiGreen, "Welcome to ZBProxy %s (%s)!\n"), version.Version, version.CommitHash)
+	fmt.Printf(color.Apply(color.FgHiGreen, "Welcome to ZBProxy %s (%s) (orbyfied fork xd)!\n"), version.Version, version.CommitHash)
 	fmt.Printf(color.Apply(color.FgHiBlack, "Build Information: %s, %s/%s, CGO %s\n"),
 		runtime.Version(), runtime.GOOS, runtime.GOARCH, common.CGOHint)
 	// go version.CheckUpdate()
