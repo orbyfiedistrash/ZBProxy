@@ -69,13 +69,18 @@ func NewListenerControlFromOptions(option *InboundSocketOptions) ControlFunc {
 		err_ := c.Control(func(fd uintptr) {
 			fdInt := int(fd)
 
-			// if option.NoDelay {
-			// 	common.MainLogger.Trace().Msg("Enabled inbound TCP_NODELAY")
-			// 	err = syscall.SetsockoptInt(fdInt, syscall.SOL_TCP, unix.TCP_NODELAY, 1)
-			// 	if err != nil {
-			// 		return
-			// 	}
-			// }
+			err = syscall.SetsockoptInt(fdInt, syscall.SOL_TCP, unix.SO_REUSEADDR, 1)
+			if err != nil {
+				return
+			}
+
+			if option.NoDelay {
+				common.MainLogger.Trace().Msg("Enabled inbound TCP_NODELAY")
+				err = syscall.SetsockoptInt(fdInt, syscall.SOL_TCP, unix.TCP_NODELAY, 1)
+				if err != nil {
+					return
+				}
+			}
 
 			if option.Mark != 0 {
 				err = syscall.SetsockoptInt(fdInt, syscall.SOL_SOCKET, syscall.SO_MARK, option.Mark)
